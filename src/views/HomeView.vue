@@ -11,9 +11,7 @@ import NftList from '../components/nft-list.vue'
       </div>
     </header>
     <div class="ta-c m-9">
-      <h2 class="fz-30 d-ib" style="max-width: 700px">
-        HELLO! WELCOME TO SUNZINE PHOTO GALLERY WITH CREATIVE & UNIQUE STYLE
-      </h2>
+      <h2 class="fz-30 d-ib" style="max-width: 700px">HELLO! Welcome to my NFT Gallary.</h2>
     </div>
     <nft-list></nft-list>
   </main>

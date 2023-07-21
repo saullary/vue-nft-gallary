@@ -47,11 +47,29 @@ ul.tag-ul {
       </li>
     </ul>
 
-    <el-row :gutter="12">
-      <el-col @click="onItem(it)" class="mb-3" :span="12" :md="6" v-for="it in list" :key="it.img">
-        <img :src="it.image_url || 'img/def.png'" class="w100p d-b" />
-      </el-col>
-    </el-row>
+    <div v-if="!list || !list.length" class="pa-5 ta-c fz-14">
+      <span v-if="!list">Loading...</span>
+      <span v-else>No NFTs.</span>
+    </div>
+    <div v-else>
+      <el-row :gutter="12">
+        <el-col
+          @click="onItem(it)"
+          class="mb-3"
+          :span="12"
+          :md="6"
+          v-for="it in list"
+          :key="it.img"
+        >
+          <img :src="it?.nft?.image_url || 'img/def.png'" class="w100p d-b" />
+        </el-col>
+      </el-row>
+      <div class="mt-5 ta-c">
+        <button v-if="!finished" @click="onLoad">
+          {{ loadingMore ? 'Loading...' : 'Load More' }}
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,8 +108,10 @@ export default {
         }
       ],
       errMsg: '',
-      pageSize: 5,
-      list: []
+      pageSize: 6,
+      list: null,
+      loadingMore: false,
+      finished: false
     }
   },
   computed: {
@@ -101,23 +121,44 @@ export default {
   },
   watch: {
     tagIdx() {
+      this.list = null
       this.getList()
+    },
+    loadingMore(val) {
+      if (val) this.getList()
     }
   },
   created() {
     this.getList()
+    window.onscroll = () => {
+      this.onScroll()
+    }
+    window.onresize = () => {
+      this.onScroll()
+    }
   },
   methods: {
+    onScroll() {
+      const maxY = document.documentElement.scrollHeight - document.documentElement.clientHeight
+      this.loadingMore = maxY - window.scrollY <= 10
+    },
+    onLoad() {
+      if (this.loadingMore) return
+      this.loadingMore = true
+      this.getList()
+    },
     onItem(it) {
       console.log(it)
-      if (!it.image_url && !it.loading) {
+      if (!it.nft) {
         this.getDetail(it)
       }
     },
     async getDetail(it) {
-      Object.assign(it, {
-        loading: true
-      })
+      if (!this.list?.find((row) => row.id == it.id)) {
+        return
+      }
+      if (it.loading) return
+      it.loading = true
       let obj = {}
       try {
         const { data } = await Axios.get(
@@ -128,11 +169,10 @@ export default {
             }
           }
         )
-        console.log(data)
+        // console.log(data)
         // const info = data.nft
         obj = {
-          ...data.nft,
-          traits: null
+          nft: data.nft
         }
       } catch (error) {
         console.log(error)
@@ -144,30 +184,49 @@ export default {
       Object.assign(it, obj)
     },
     async getList() {
+      if (this.loadingMore && this.finished) {
+        return
+      }
       try {
         this.errMsg = ''
         const owner_address = '0x145BD3C05D8d3117d133f577fa9af538ba353e8C'
+        const params = {
+          chain: this.curTag.net,
+          token_type: 'erc721',
+          page_size: this.pageSize
+        }
+        if (this.list?.length) {
+          params.cursor = this.nextCursor
+        }
         const { data } = await Axios.get(
           `https://api.blockspan.com/v1/nfts/owner/${owner_address}`,
           {
-            params: {
-              chain: this.curTag.net,
-              token_type: 'erc721',
-              page_size: this.pageSize
-            },
+            params,
             headers: {
               'x-api-key': 'Kjm3vweLwcJwr228lejHwbjCyaaEvfzz'
             }
           }
         )
-        console.log(data)
-        this.list = data.results
-        for (const it of this.list) {
-          await this.getDetail(it)
+        const rows = data.results
+        if (!this.list) {
+          this.list = rows
+        } else {
+          this.list = [...this.list, ...rows]
         }
+        this.nextCursor = data.cursor
+        this.finished = rows.length < this.pageSize
+        console.log(data, this.finished)
+        this.loadDetail()
       } catch (error) {
         console.log(error)
         this.errMsg = error.message
+        if (!this.list) this.list = []
+      }
+      this.loadingMore = false
+    },
+    async loadDetail() {
+      for (const it of this.list) {
+        if (!it.nft) await this.getDetail(it)
       }
     }
   }
