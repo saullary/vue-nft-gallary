@@ -61,7 +61,19 @@ ul.tag-ul {
           v-for="it in list"
           :key="it.img"
         >
-          <img :src="it?.nft?.image_url || 'img/def.png'" class="w100p d-b" />
+          <a
+            :href="`https://opensea.io/assets/${curTag.chain}/${it.contract_address}/${it.id}`"
+            target="_blank"
+            class="pos-r"
+          >
+            <img :src="it?.nft?.image_url || 'img/def.png'" class="w100p d-b" />
+            <div class="pos-mask white h-flex">
+              <div class="pa-2 fz-14 mt-auto bg-black-3">
+                <p class="op-9 line-1">{{ it.nft?.name || `#${it.id}` }}</p>
+                <!-- <p class="mt-2 fz-15 line-3 d-n">{{ it.nft?.description }}</p> -->
+              </div>
+            </div>
+          </a>
         </el-col>
       </el-row>
       <div class="mt-5 ta-c">
@@ -108,7 +120,7 @@ export default {
         }
       ],
       errMsg: '',
-      pageSize: 6,
+      pageSize: 12,
       list: null,
       loadingMore: false,
       finished: false

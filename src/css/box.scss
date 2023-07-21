@@ -1,10 +1,14 @@
-.d-n { display: none; }
-.d-b { display: block; }
-.d-ib { display: inline-block; }
+body {
+	.d-n { display: none; }
+	.d-b { display: block; }
+	.d-ib { display: inline-block; }
+}
 .m-auto { margin: auto; }
 .ml-auto { margin-left: auto; }
 .mr-auto { margin-right: auto; }
 .mt-auto { margin-top: auto; }
+
+.hidden { visibility: hidden; }
 
 .w100p, .wh100p { width: 100%; }
 .h100p, .wh100p { height: 100%; }
