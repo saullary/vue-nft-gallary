@@ -17,6 +17,10 @@ import NftList from '../components/nft-list.vue'
     </div>
     <nft-list :info="info" v-if="info.walletAddr"></nft-list>
     <div class="mt-8 ta-c gray" v-if="errMsg">{{ errMsg }}</div>
+
+    <div class="op-0">
+      <img src="img/def.png" width="20" />
+    </div>
   </main>
 </template>
 
