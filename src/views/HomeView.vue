@@ -31,8 +31,8 @@ export default {
         title: 'My NFT Gallary',
         spanApiKey: 'Kjm3vweLwcJwr228lejHwbjCyaaEvfzz',
         bio: 'HI! Welcome to My NFT Gallary.',
-        logo: 'img/logo.png'
-        // walletAddr: '0x145BD3C05D8d3117d133f577fa9af538ba353e8C',
+        logo: 'img/logo.png',
+        walletAddr: '0x145BD3C05D8d3117d133f577fa9af538ba353e8C'
       }
     }
   },
