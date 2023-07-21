@@ -1,9 +1,21 @@
 <style lang="scss">
+.bg-black1 {
+  background: linear-gradient(180deg, #0000, #0004);
+  p {
+    transition: all linear 200ms;
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
 .nft-item {
   display: block;
   transition: all linear 200ms;
   &:hover {
     box-shadow: 0 0 6px #aaa;
+    .bg-black1 p {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 li.no-dot {
@@ -75,8 +87,11 @@ ul.tag-ul {
           >
             <img :src="it?.nft?.image_url || 'img/def.png'" class="w100p d-b" />
             <div class="pos-mask white h-flex">
-              <div class="pa-2 fz-14 mt-auto bg-black-3">
-                <p class="op-9 line-1">{{ it.nft?.name || `#${it.id}` }}</p>
+              <div class="pa-3 fz-14 mt-auto bg-black1">
+                <p class="op-9 line-1">
+                  <span class="fz-18 mr-1">{{ it.nft?.name?.replace(` #${it.id}`, '') }}</span>
+                  <span>{{ `#${it.id}` }}</span>
+                </p>
                 <!-- <p class="mt-2 fz-15 line-3 d-n">{{ it.nft?.description }}</p> -->
               </div>
             </div>
