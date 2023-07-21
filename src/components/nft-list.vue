@@ -1,4 +1,11 @@
 <style lang="scss">
+.nft-item {
+  display: block;
+  transition: all linear 200ms;
+  &:hover {
+    box-shadow: 0 0 6px #aaa;
+  }
+}
 li.no-dot {
   list-style: none;
 }
@@ -64,7 +71,7 @@ ul.tag-ul {
           <a
             :href="`https://opensea.io/assets/${curTag.chain}/${it.contract_address}/${it.id}`"
             target="_blank"
-            class="pos-r"
+            class="pos-r nft-item"
           >
             <img :src="it?.nft?.image_url || 'img/def.png'" class="w100p d-b" />
             <div class="pos-mask white h-flex">
@@ -89,6 +96,9 @@ ul.tag-ul {
 import Axios from 'axios'
 
 export default {
+  props: {
+    info: Object
+  },
   data() {
     return {
       tagIdx: 0,
@@ -173,7 +183,23 @@ export default {
       it.loading = true
       let obj = {}
       try {
-        const { data } = await Axios.get(
+        // const { data } = await Axios.get(
+        //   `https://api.blockspan.com/v1/nfts/contract/${it.contract_address}/token/${it.id}`,
+        //   {
+        //     params: {
+        //       chain: this.curTag.net
+        //     },
+        //     headers: {
+        //       'x-api-key': this.info.spanApiKey
+        //     }
+        //   }
+        // )
+        // const imgs = data.cached_images || {}
+        // let image_url = imgs.medium_500_500 || imgs.original || ''
+        // let name = data.token_name
+        const {
+          data: { nft }
+        } = await Axios.get(
           `https://api.opensea.io/v2/chain/${this.curTag.chain}/contract/${it.contract_address}/nfts/${it.id}`,
           {
             headers: {
@@ -181,10 +207,8 @@ export default {
             }
           }
         )
-        // console.log(data)
-        // const info = data.nft
         obj = {
-          nft: data.nft
+          nft
         }
       } catch (error) {
         console.log(error)
@@ -201,7 +225,6 @@ export default {
       }
       try {
         this.errMsg = ''
-        const owner_address = '0x145BD3C05D8d3117d133f577fa9af538ba353e8C'
         const params = {
           chain: this.curTag.net,
           token_type: 'erc721',
@@ -211,11 +234,11 @@ export default {
           params.cursor = this.nextCursor
         }
         const { data } = await Axios.get(
-          `https://api.blockspan.com/v1/nfts/owner/${owner_address}`,
+          `https://api.blockspan.com/v1/nfts/owner/${this.info.walletAddr}`,
           {
             params,
             headers: {
-              'x-api-key': 'Kjm3vweLwcJwr228lejHwbjCyaaEvfzz'
+              'x-api-key': this.info.spanApiKey
             }
           }
         )
