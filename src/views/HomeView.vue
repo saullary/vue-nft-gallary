@@ -10,6 +10,7 @@ import NftList from '../components/nft-list.vue'
         <h1 class="ml-2 fz-18">{{ info.title }}</h1>
       </div>
     </header>
+    <div class="pa-5"></div>
     <div class="ta-c m-9">
       <h2 class="fz-30 d-ib" style="max-width: 700px">
         {{ info.bio }}
@@ -36,7 +37,7 @@ export default {
         spanApiKey: 'Kjm3vweLwcJwr228lejHwbjCyaaEvfzz',
         bio: 'HI! Welcome to My NFT Gallery.',
         logo: 'img/logo.png',
-        walletAddr: '' //0x145BD3C05D8d3117d133f577fa9af538ba353e8C
+        walletAddr: '0x145BD3C05D8d3117d133f577fa9af538ba353e8C' //
       }
     }
   },

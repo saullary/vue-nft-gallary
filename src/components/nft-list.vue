@@ -49,6 +49,7 @@ ul.tag-ul {
 
 <template>
   <div>
+    <div class="pa-3"></div>
     <ul class="al-c f-center f-wrap tag-ul mb-8">
       <li
         @click="tagIdx = i"
@@ -65,7 +66,7 @@ ul.tag-ul {
         <span>{{ it.name }}</span>
       </li>
     </ul>
-
+    <div class="pa-4"></div>
     <div v-if="!list || !list.length" class="pa-5 ta-c fz-14">
       <span v-if="!list">Loading...</span>
       <span v-else>No NFT</span>
