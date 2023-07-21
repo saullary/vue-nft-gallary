@@ -68,7 +68,7 @@ ul.tag-ul {
 
     <div v-if="!list || !list.length" class="pa-5 ta-c fz-14">
       <span v-if="!list">Loading...</span>
-      <span v-else>No NFTs.</span>
+      <span v-else>No NFT</span>
     </div>
     <div v-else>
       <el-row :gutter="12">

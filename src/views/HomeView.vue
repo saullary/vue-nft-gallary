@@ -19,7 +19,7 @@ import NftList from '../components/nft-list.vue'
     <div class="mt-8 ta-c gray" v-if="errMsg">{{ errMsg }}</div>
 
     <div class="op-0">
-      <img src="img/def.png" width="20" />
+      <img :src="'img/def.png'" width="20" />
     </div>
   </main>
 </template>
@@ -32,11 +32,11 @@ export default {
     return {
       errMsg: '',
       info: {
-        title: 'My NFT Gallary',
+        title: 'My NFT Gallery',
         spanApiKey: 'Kjm3vweLwcJwr228lejHwbjCyaaEvfzz',
-        bio: 'HI! Welcome to My NFT Gallary.',
+        bio: 'HI! Welcome to My NFT Gallery.',
         logo: 'img/logo.png',
-        walletAddr: '0x145BD3C05D8d3117d133f577fa9af538ba353e8C' //
+        walletAddr: '' //0x145BD3C05D8d3117d133f577fa9af538ba353e8C
       }
     }
   },
