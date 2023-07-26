@@ -37,7 +37,7 @@ export default {
         spanApiKey: 'Kjm3vweLwcJwr228lejHwbjCyaaEvfzz',
         bio: 'HI! Welcome to My NFT Gallery.',
         logo: 'img/logo.png',
-        walletAddr: '0x145BD3C05D8d3117d133f577fa9af538ba353e8C' //
+        walletAddr: '' // 0x145BD3C05D8d3117d133f577fa9af538ba353e8C
       }
     }
   },
